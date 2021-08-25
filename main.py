@@ -25,15 +25,29 @@ while True:
     contours_red, _ = cv2.findContours(mask_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
     contours_green, _ = cv2.findContours(mask_green, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 
-    for contour in contours_red:
-        area = cv2.contourArea(contour)
-        if area > 8000:
-            cv2.drawContours(frame, contour, -1, (255,0,0), 3)
+    if len(contours_red) != 0:
+        for contour in contours_red:
+            area = cv2.contourArea(contour)
+            if area > 8000:
+                cv2.drawContours(frame, contour, -1, (255, 0, 0), 3)
 
-    for contour in contours_green:
-        area = cv2.contourArea(contour)
-        if area > 8000:
-            cv2.drawContours(frame, contour, -1, (0,255,0), 3)
+        c = max(contours_red, key=cv2.contourArea)
+        x, y, w, h = cv2.boundingRect(c)
+
+        if w * h > 8000:
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
+    if len(contours_green) != 0:
+        for contour in contours_green:
+            area = cv2.contourArea(contour)
+            if area > 8000:
+                cv2.drawContours(frame, contour, -1, (255, 0, 0), 3)
+
+        c = max(contours_green, key=cv2.contourArea)
+        x, y, w, h = cv2.boundingRect(c)
+
+        if w * h > 8000:
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     cv2.imshow("red mask", mask_red)
     cv2.imshow("green mask", mask_green)
