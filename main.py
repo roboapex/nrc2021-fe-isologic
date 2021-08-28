@@ -4,6 +4,9 @@ import numpy as np
 cap = cv2.VideoCapture(1)
 
 while True:
+    area_red = 0
+    area_green = 0
+
     _, frame = cap.read()
     blurred_frame = cv2.medianBlur(frame, 15)
     hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
@@ -30,24 +33,28 @@ while True:
             area = cv2.contourArea(contour)
             if area > 8000:
                 cv2.drawContours(frame, contour, -1, (255, 0, 0), 3)
-
-        c = max(contours_red, key=cv2.contourArea)
-        x, y, w, h = cv2.boundingRect(c)
-
-        if w * h > 8000:
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                area_red = area
 
     if len(contours_green) != 0:
         for contour in contours_green:
             area = cv2.contourArea(contour)
             if area > 8000:
                 cv2.drawContours(frame, contour, -1, (255, 0, 0), 3)
+                area_green = area
 
-        c = max(contours_green, key=cv2.contourArea)
-        x, y, w, h = cv2.boundingRect(c)
-
-        if w * h > 8000:
+    if area_red > area_green:
+        if len(contours_red) != 0:
+            c = max(contours_red, key=cv2.contourArea)
+            x, y, w, h = cv2.boundingRect(c)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    elif area_green > area_red:
+        if len(contours_green) != 0:
+            c = max(contours_green, key=cv2.contourArea)
+            x, y, w, h = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    print(f"Red: {area_red}")
+    print(f"Green: {area_green}")
 
     cv2.imshow("red mask", mask_red)
     cv2.imshow("green mask", mask_green)
