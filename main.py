@@ -11,6 +11,9 @@ while True:
     blurred_frame = cv2.medianBlur(frame, 15)
     hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
 
+    windowWidth = frame.shape[1]
+    windowHeight = frame.shape[0]
+
     lower_red = np.array([0, 100, 30])
     upper_red = np.array([5, 255, 255])
     mask_red_1 = cv2.inRange(hsv, lower_red, upper_red)
@@ -47,14 +50,28 @@ while True:
             c = max(contours_red, key=cv2.contourArea)
             x, y, w, h = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
+            red_x_midpt = (x + x + w) / 2
+            red_y_midpt = (y + y + h) / 2
+            print(red_x_midpt, red_y_midpt)
+            if red_x_midpt > windowWidth / 5:
+                print("Turn right")
+            else:
+                print("Go straight")
+
     elif area_green > area_red:
         if len(contours_green) != 0:
             c = max(contours_green, key=cv2.contourArea)
             x, y, w, h = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    print(f"Red: {area_red}")
-    print(f"Green: {area_green}")
+            green_x_midpt = (x + x + w) / 2
+            green_y_midpt = (y + y + h) / 2
+            print(green_x_midpt, green_y_midpt)
+            if green_x_midpt < windowWidth / 5 * 4:
+                print("Turn left")
+            else:
+                print("Go straight")
 
     cv2.imshow("red mask", mask_red)
     cv2.imshow("green mask", mask_green)
