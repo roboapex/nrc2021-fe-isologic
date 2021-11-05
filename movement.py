@@ -1,3 +1,7 @@
+'''
+Reference: https://www.electronicshub.org/raspberry-pi-l298n-interface-tutorial-control-dc-motor-l298n-raspberry-pi/
+'''
+
 # SETUP
 
 ## Imports
