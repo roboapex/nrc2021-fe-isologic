@@ -9,7 +9,6 @@ in3 = 7
 in4 = 8
 en1 = 25
 en2 = 12
-temp1=1
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)
