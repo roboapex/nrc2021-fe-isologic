@@ -1,3 +1,5 @@
+# SETUP
+
 import RPi.GPIO as GPIO          
 from time import sleep
 
@@ -26,6 +28,10 @@ p2=GPIO.PWM(en2,1000)
 p1.start(50)
 p2.start(50)
 
+# FUNCTIONS
+
+## Speed
+
 def right_slow():
     p1.ChangeDutyCycle(25)
 
@@ -44,6 +50,8 @@ def left_medium():
 def left_fast():
     p2.ChangeDutyCycle(75)
 
+## Stright-line movement
+
 def back(tf):
     GPIO.output(in1,GPIO.HIGH)
     GPIO.output(in2,GPIO.LOW)
@@ -60,6 +68,8 @@ def forward(tf):
     GPIO.output(in4,GPIO.HIGH)
     sleep(tf)
     stop()
+
+## Turning
 
 def spin_left(tf):
     GPIO.output(in1,GPIO.LOW)
@@ -92,6 +102,8 @@ def pivot_left(tf):
     GPIO.output(in2,GPIO.HIGH)
     sleep(tf)
     stop()
+
+## Endings
 
 def stop():
     GPIO.output(in3,GPIO.LOW)
