@@ -1,29 +1,43 @@
 # SETUP
 
+## Imports
 import RPi.GPIO as GPIO          
 from time import sleep
 
+## Setting pins
+
+### Right motor
 in1 = 24
 in2 = 23
+en1 = 25
+
+### Left motor
 in3 = 7
 in4 = 8
-en1 = 25
 en2 = 12
 
+## Initialisation
+
+### Initialising pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en1,GPIO.OUT)
 GPIO.setup(in3,GPIO.OUT)
 GPIO.setup(in4,GPIO.OUT)
-GPIO.setup(en1,GPIO.OUT)
 GPIO.setup(en2,GPIO.OUT)
+
+### 'Zero'ing motors
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
 GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
+
+### Initialising Pulse-width modulation
 p1=GPIO.PWM(en1,1000)
 p2=GPIO.PWM(en2,1000)
 
+### Initialising motor speed
 p1.start(50)
 p2.start(50)
 
