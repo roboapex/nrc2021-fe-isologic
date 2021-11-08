@@ -174,17 +174,23 @@ def clean():
 
 
 count = 0
-
+# TODO: Make bot start only when button pressed
 while count < 18:
     if camera()[0] == 0 and camera()[1] > 8000:
         if camera()[2] < windowWidth/3:
             forward(2)
-            pivot_left(1)
+            if count != 17:
+                pivot_left(1)
+            else:
+                forward(2)
         else:
             while camera()[2] >= windowWidth/3:
                 pivot_right(0.5)
             forward(2)
-            pivot_left(1)
+            if count != 17:
+                pivot_left(1)
+            else:
+                forward(2)
         count += 1
     elif camera()[0] == 1 and camera()[1] > 8000:
         if camera()[2] > windowWidth/3*2:
@@ -197,9 +203,11 @@ while count < 18:
             pivot_right(1)
         count += 1
     else:
-        if light sensor senses orange line:
-            pivot_right(1)
-        else:
-            forward(1)
+        pass
+        # TODO: Add light sensor code
+        # if light sensor senses orange line:
+        #     pivot_right(1)
+        # else:
+        #     forward(1)
 
 cap.release()
